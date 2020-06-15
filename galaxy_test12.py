@@ -288,9 +288,13 @@ def cell_boundaries(grid_min, grid_max, num_cell):
 
 def find_cell(x_value, y_value, cell_bounds_x, cell_bounds_y):
     ''' Used in init_grid. Reads a data point and assign the right cell boundary to it. '''
-    x_bound = [cell_x_bound for cell_x_bound in cell_bounds_x if x_value >= cell_x_bound[0] and x_value < cell_x_bound[1]]
-    y_bound = [cell_y_bound for cell_y_bound in cell_bounds_y if y_value >= cell_y_bound[0] and y_value < cell_y_bound[1]]
-   
+    for cell_x_bound in cell_bounds_x:
+        if x_value >= cell_x_bound[0] and x_value < cell_x_bound[1]:
+            x_bound = cell_x_bound 
+    for cell_y_bound in cell_bounds_y:
+        if y_value >= cell_y_bound[0] and y_value < cell_y_bound[1]:
+            y_bound = cell_y_bound 
+
     if x_bound and y_bound:  # check empty result
         cell_bound = (x_bound[0],y_bound[0])
         return cell_bound     # ((x_min,x_max),(y_min,y_max))
