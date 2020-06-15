@@ -296,7 +296,7 @@ def find_cell(x_value, y_value, cell_bounds_x, cell_bounds_y):
             y_bound = cell_y_bound 
 
     if x_bound and y_bound:  # check empty result
-        cell_bound = (x_bound[0],y_bound[0])
+        cell_bound = (x_bound,y_bound)
         return cell_bound     # ((x_min,x_max),(y_min,y_max))
     else:
         raise Exception('Grid dimensions unable to cover entire galactic disc.')
