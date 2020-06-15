@@ -177,7 +177,7 @@ def sep_const_search(galactic_radius):
     '''
     Looping the density_wave_radius function. 
     Use bisection method to search for the most appropriate line_sep_const value such that 
-    the max value in exp_radius_array is 1.3x (slightly) bigger than the real galactic radius.
+    the max value in exp_radius_array is 1.1x (slightly) bigger than the real galactic radius.
     '''
     const_min = line_sep_const_min 
     const_max = line_sep_const_max
@@ -190,9 +190,9 @@ def sep_const_search(galactic_radius):
         exp_radius_array = density_wave_radius(galactic_radius, const)
         
         # check the max value against galactic radius
-        if exp_radius_array[-1] > galactic_radius*1.3:
+        if exp_radius_array[-1] > galactic_radius*1.1:
             const_max = const
-        if exp_radius_array[-1] < galactic_radius*1.3:   
+        if exp_radius_array[-1] < galactic_radius*1.1:   
             const_min = const
              
     # output the final exp_radius_array
@@ -288,14 +288,11 @@ def cell_boundaries(grid_min, grid_max, num_cell):
 
 def find_cell(x_value, y_value, cell_bounds_x, cell_bounds_y):
     ''' Used in init_grid. Reads a data point and assign the right cell boundary to it. '''
-    for cell_x_bound in cell_bounds_x:
-        for cell_y_bound in cell_bounds_y:
-            # if the data point falls within both x and y boundary
-            if x_value >= cell_x_bound[0] and x_value < cell_x_bound[1] and \
-                y_value >= cell_y_bound[0] and y_value < cell_y_bound[1]:
-                cell_bound = (cell_x_bound,cell_y_bound)
+    x_bound = [cell_x_bound for cell_x_bound in cell_bounds_x if x_value >= cell_x_bound[0] and x_value < cell_x_bound[1]]
+    y_bound = [cell_y_bound for cell_y_bound in cell_bounds_y if y_value >= cell_y_bound[0] and y_value < cell_y_bound[1]]
    
-    if cell_bound:  # check empty result
+    if x_bound and y_bound:  # check empty result
+        cell_bound = (x_bound[0],y_bound[0])
         return cell_bound     # ((x_min,x_max),(y_min,y_max))
     else:
         raise Exception('Grid dimensions unable to cover entire galactic disc.')
@@ -485,14 +482,14 @@ def main():
     ax3.plot(rc_func_x, rc_func_y,'-',color='red')
     plt.show()
     
-    scene.camera.pos = vp.vector(0,0,radius_data[-1]*1.8)
+    scene.camera.pos = vp.vector(0,0,radius_data[-1]*1.5)
     scene.camera.axis = vp.vector(vp.vector(0,0,0) - scene.camera.pos)  
     vp.local_light(pos=vp.vector(0,0,0),color=vp.color.blue)  
 
     # Initialize all objects 
     star_list = init_system(radius_data, velocity_data, rc_func)
     
-    
+
     ''' Animation '''
     
     if run_animation == True:       
