@@ -537,7 +537,7 @@ line_sep_const_max = 1e15
 num_cell = 70  
 
 # Run vpython animation (May switch off while adjusting the spiral structure) 
-run_animation = False
+run_animation = True
 
 #### Star controls - 
 # set consant of proportionality between number of stars and number of points in each cell
